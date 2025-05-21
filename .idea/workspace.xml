@@ -4,10 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e572a4a1-ba03-4a41-84d2-e025aabe86fd" name="Changes" comment="Task1">
-      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="e572a4a1-ba03-4a41-84d2-e025aabe86fd" name="Changes" comment="Task1" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -38,7 +35,7 @@
 }]]></component>
   <component name="GithubPullRequestsUISettings"><![CDATA[{
   "selectedUrlAndAccountId": {
-    "url": "https://github.com/CorpadeanDariusCiprian/event_discovery.git",
+    "url": "https://github.com/CorpadeanDariusCiprian/event_Disc.git",
     "accountId": "47a39681-56ff-4ebd-a697-ea4ce6166e4e"
   }
 }]]></component>
@@ -197,7 +194,7 @@
       <workItem from="1747753865751" duration="9409000" />
       <workItem from="1747763326055" duration="470000" />
       <workItem from="1747764415656" duration="7711000" />
-      <workItem from="1747817693979" duration="3415000" />
+      <workItem from="1747817693979" duration="3776000" />
     </task>
     <task id="LOCAL-00001" summary="Task1">
       <option name="closed" value="true" />
@@ -214,6 +211,7 @@
     <option name="version" value="3" />
   </component>
   <component name="VcsManagerConfiguration">
+    <MESSAGE value="Initial commit without .env" />
     <MESSAGE value="Task1" />
     <option name="LAST_COMMIT_MESSAGE" value="Task1" />
   </component>
