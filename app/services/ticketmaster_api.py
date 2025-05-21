@@ -3,7 +3,7 @@ import os
 from dotenv import load_dotenv
 
 load_dotenv()
-# Ideally, store your API key in an environment variable
+
 API_KEY = os.getenv("TICKET_MASTER_KEY")
 
 print("Ticketmaster API Key:", API_KEY)

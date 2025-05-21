@@ -13,9 +13,8 @@ def search_events(keyword=None, category=None, date=None, address=None, limit=5)
     category_part = category.replace(" ", "-").lower() if category else ""
     keyword_part = keyword.replace(" ", "-").lower() if keyword else ""
 
-    # Compose URL path — Eventbrite URLs typically look like:
     # https://www.eventbrite.com/d/{location}/{category}/{keyword}/
-    # We'll join only the parts that exist
+
     url_path_parts = [location_part]
     if category_part:
         url_path_parts.append(category_part)
@@ -25,13 +24,12 @@ def search_events(keyword=None, category=None, date=None, address=None, limit=5)
     url_path = "/".join(url_path_parts)
     url = f"{base_url}{url_path}/"
 
-    # Add date filter as query param if provided
     if date:
         url += f"?start_date={date}"
 
     print(f"Scraping URL: {url}")  # Debug print
 
-    # Setup selenium and scrape as before (omitted for brevity)
+
     options = Options()
     options.add_argument('--headless')
     options.add_argument('--disable-gpu')

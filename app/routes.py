@@ -14,25 +14,26 @@ stripe.api_key = os.getenv("STRIPE_SECRET_KEY")
 
 main = Blueprint('main', __name__)
 
-@main.route("/", methods=["GET", "POST"])
+@main.route("/", methods=["POST"])
 def index():
-    if request.method == "POST":
-        category = request.form.get("category", "")
-        date = request.form.get("date", "")
-        address = request.form.get("address", "")
-        keyword = request.form.get("keyword", "")
+    # Extract input from POST form data (or JSON if you want)
+    category = request.form.get("category", "")
+    date = request.form.get("date", "")
+    address = request.form.get("address", "")
+    keyword = request.form.get("keyword", "")
 
-        # Redirect to /results with query parameters
-        query_params = urlencode({
-            "keyword": keyword,
-            "category": category,
-            "date": date,
-            "address": address
-        })
-        return redirect(url_for("main.results") + "?" + query_params)
+    # Process inputs immediately (call search functions)
+    events_ticketmaster = ticketmaster_api.search_events(keyword, category, date, address, limit=5)
+    events_eventbrite = eventbrite_scraper.search_events(keyword, category, date, address, limit=5)
 
-    # GET request just shows the blank search form
-    return render_template("index.html")
+    # Return results directly, render template with data
+    return render_template(
+        "results.html",
+        events_ticketmaster=events_ticketmaster,
+        events_eventbrite=events_eventbrite,
+        keyword=keyword,
+        stripe_public_key=os.getenv("STRIPE_PUBLIC_KEY")
+    )
 
 
 @main.route("/results", methods=["GET"])
@@ -157,3 +158,4 @@ def dummy_payment_success():
 
     save_transaction(session_id, user_ip, search_params, cart_items, payment_status)
     return render_template("thank_you.html")
+

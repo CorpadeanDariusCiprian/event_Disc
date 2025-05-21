@@ -1,10 +1,10 @@
 from tinydb import TinyDB, Query
 from datetime import datetime
 
-# Initialize the TinyDB database file
+
 db = TinyDB('tinydb.json')  # This file will store your data
 
-# Table for client transactions
+
 transactions_table = db.table('client_transactions')
 
 
