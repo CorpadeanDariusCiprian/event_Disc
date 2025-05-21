@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Your Cart</title>
+</head>
+<body>
+    <h1>Your Cart</h1>
+
+    {% if cart_items %}
+        <ul>
+            {% for item in cart_items %}
+                <li>
+                    <strong>{{ item.name }}</strong><br>
+                    Date: {{ item.date }}<br>
+                    Time: {{ item.time }}<br>
+                    Venue: {{ item.venue }}<br>
+                    <a href="{{ item.url }}" target="_blank">View Event</a>
+                </li>
+            {% endfor %}
+        </ul>
+        <a href="{{ url_for('main.clear_cart_route') }}">Clear Cart</a>
+    {% else %}
+        <p>Your cart is empty.</p>
+    {% endif %}
+
+    <a href="{{ url_for('main.index') }}">Back to Search</a>
+</body>
+</html>

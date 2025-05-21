@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Results for "{{ keyword }}"</title>
+    <script src="https://js.stripe.com/v3/"></script>
+    <script>
+        let cart = [];
+
+        function addToCart(name, price) {
+            // price might be string like "$10" or "10.00"
+            const numericPrice = parseFloat(String(price).replace(/[^0-9.]/g, '')) || 0;
+
+            const existing = cart.find(item => item.name === name);
+            if (existing) {
+                existing.quantity += 1;
+            } else {
+                cart.push({ name, price: numericPrice, quantity: 1 });
+            }
+
+            updateCartTotal();
+        }
+
+        function updateCartTotal() {
+            let total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            document.getElementById("cart-total").innerText = `Total: $${total.toFixed(2)}`;
+        }
+
+        async function checkout() {
+            const response = await fetch("/create_checkout_session", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ items: cart })
+            });
+
+            const data = await response.json();
+            if (data.url) {
+                window.location.href = data.url;
+            } else {
+                alert("Failed to create Stripe session.");
+            }
+        }
+    </script>
+</head>
+<body>
+<h1>Search Results for "{{ keyword }}"</h1>
+
+<hr>
+
+<h2>🎫 Ticketmaster Events</h2>
+{% if events_ticketmaster %}
+    <ul>
+    {% for ev in events_ticketmaster %}
+        <li>
+            <strong>{{ ev.name }}</strong><br>
+            {{ ev.date }} {{ ev.time }} – {{ ev.venue }}<br>
+            <a href="{{ ev.url }}" target="_blank">More info</a>
+        </li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No Ticketmaster events found.</p>
+{% endif %}
+
+<hr>
+
+<h2>📅 Eventbrite Events</h2>
+{% if events_eventbrite %}
+    <ul>
+    {% for ev in events_eventbrite %}
+        <li>
+            <strong>{{ ev.name }}</strong><br>
+            {{ ev.datetime }}<br>
+            {% if ev.price != 'N/A' %}
+                Price: {{ ev.price }}<br>
+                <button onclick="addToCart('{{ ev.name }}', '{{ ev.price }}')">➕</button>
+            {% endif %}
+            {% if ev.organizer != 'N/A' %}
+                Organizer: {{ ev.organizer }}<br>
+            {% endif %}
+            {% if ev.url %}
+                <a href="{{ ev.url }}" target="_blank">More info</a>
+            {% endif %}
+        </li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No Eventbrite events found.</p>
+{% endif %}
+
+<hr>
+
+<h3 id="cart-total">Total: $0.00</h3>
+<button onclick="checkout()">💳 Pay with Stripe</button>
+
+<br><br>
+<a href="{{ url_for('main.index') }}">Back to search</a>
+</body>
+</html>
